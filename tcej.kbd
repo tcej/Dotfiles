@@ -1,0 +1,793 @@
+(defcfg
+  input (device-file "/dev/input/by-path/platform-i8042-serio-0-event-kbd")
+  output (uinput-sink "KMonad: i8042")
+)
+
+(defsrc
+  esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  home end  ins  del
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    ret
+  caps a    s    d    f    g    h    j    k    l    ;    '
+  lsft 102d z    x    c    v    b    n    m    ,    .    /         rsft
+       lctl lmet lalt           spc            ralt prnt rctl pgup up   pgdn
+                                                              left down rght
+)
+
+(defalias
+
+<-   (layer-add default)
+bsp  #(bspc @<-)
+
+TB   (layer-add tab)
+ME   (layer-add menu)
+CH   (layer-add change)
+DE   (layer-add delete)
+ES   (layer-add escape)
+EI   (layer-add escapeinsert)
+NO   (layer-add normal)
+NS   (layer-add normalshifted)
+NP   (layer-add normalpunctuation)
+VI   (layer-add visual)
+VS   (layer-add visualshifted)
+VP   (layer-add visualpunctuation)
+PU   (layer-add punctuation)
+QS   (layer-add quickshift)
+RE   (layer-add replace)
+RS   (layer-add replaceshifted)
+RP   (layer-add replacepunctuation)
+RB   (layer-add replacebackspace)
+IN   (layer-add insert)
+IS   (layer-add insertshifted)
+IP   (layer-add insertpunctuation)
+RO   (layer-add restoreo)
+BP   (layer-add backspace)
+MD   (layer-add mod)
+
+HD   (layer-toggle hold)
+SH   (layer-toggle spacehold)
+
+MK   (tap-hold 200 @NO @HD)
+SC   (tap-hold 200 spc @SH)
+
+TL   #(f5 @TB)
+TR   #(f6 @TB)
+SP   #(@SC @<-)
+BS   #(bspc @BP)
+
+ctl  (tap-hold 200 ; ctl)
+esc  #(esc @<-)
+ret  #(ret @<-)
+grv  #(grv @<-)
+tab  #(tab @<-)
+
+MEu  #(up @ME)
+MEd  #(down @ME)
+MEl  #(left @ME)
+MEr  #(rght @ME)
+
+CHe  #(C-del @<-)
+CHm  #(C-bspc @<-)
+CHw  #(C-del @<-)
+CHc  #(home S-end del @<-)
+CHj  #(S-left del @<-)
+CHl  #(S-right del @<-)
+CHi  #(S-up del @<-)
+CHk  #(S-down del @<-)
+
+DEe  #(C-del @NO)
+DEm  #(C-bspc @NO)
+DEw  #(C-del @NO)
+DEq  #(home S-end del @NO)
+DEj  #(S-left del @NO)
+DEl  #(S-right del @NO)
+DEi  #(S-up del @NO)
+DEk  #(S-down del @NO)
+
+NOa  #(right @<-)
+NOe  #(C-right @NO)
+NOg  #(C-home @NO)
+NOm  #(C-left @NO)
+NOw  #(C-right @NO)
+NOx  #(del @NO)
+NOq  #(@DE)
+NOj  #(left @NO)
+NOl  #(right @NO)
+NOi  #(up @NO)
+NOk  #(down @NO)
+NOs  #(del @<-)
+NOu  #(C-z)
+NOp  #(right C-v)
+
+NSa  #(end @<-)
+NSc  #(S-end del @<-)
+NSg  #(C-end @NO)
+NSq  #(S-end del @NO)
+NSp  #(C-v)
+NSs  #(home S-end del @<-)
+NSv  #(home S-end @VI)
+NSu  #(C-S-z @NO)
+NSx  #(bspc @NO)
+NSy  #(home S-end C-c left @NO)
+
+NPd  #(end @NO)
+NPr  #(home @NO)
+
+VIv  #(left @NO)
+VIr  #(right @NO)
+VIa  #(right right @NO)
+VIo  #(right @NO)
+VIe  #(C-S-right)
+VIw  #(C-S-right)
+VIm  #(C-S-left)
+VIp  #(C-v @NO)
+VIj  #(S-left)
+VIl  #(S-right)
+VIi  #(S-up)
+VIk  #(S-down)
+VIx  #(del @NO)
+VIs  #(del @<-)
+VIy  #(C-c left @NO)
+
+VPd  #(S-end @VI)
+VPr  #(S-home @VI)
+
+q    #(q @<-)
+w    #(w @<-) 
+e    #(e @<-)
+r    #(r @<-)
+t    #(t @<-)
+y    #(y @<-)
+u    #(u @<-)
+i    #(i @<-)
+o    #(o @<-)
+p    #(p @<-)
+a    #(a @<-)
+s    #(s @<-)
+d    #(d @<-)
+f    #(f @<-)
+g    #(g @<-)
+h    #(h @<-)
+j    #(j @<-)
+k    #(k @<-)
+l    #(l @<-)
+z    #(z @<-)
+x    #(x @<-)
+c    #(c @<-)
+v    #(v @<-)
+b    #(b @<-)
+n    #(n @<-)
+m    #(m @<-)
+hom  #(home @<-)
+end  #(end @<-)
+ins  #(ins @<-)
+del  #(del @<-)
+f1   #(f1 @<-)
+f2   #(f2 @<-)
+f3   #(f3 @<-)
+f4   #(f4 @<-)
+f5   #(f5 @<-)
+f6   #(f6 @<-)
+f7   #(f7 @<-)
+f8   #(f8 @<-)
+f9   #(f9 @<-)
+f10  #(f10 @<-)
+f11  #(f11 @<-)
+f12  #(f12 @<-)
+1    #(1 @<-)
+2    #(2 @<-)
+3    #(3 @<-)
+4    #(4 @<-)
+5    #(5 @<-)
+6    #(6 @<-)
+7    #(7 @<-)
+8    #(8 @<-)
+9    #(9 @<-)
+0    #(0 @<-)
+
+''   #(" @<-)
+*    #(* @<-) 
+=    #(= @<-)
+^    #(^ @<-)
+`    #(` @<-)
+?    #(? @<-)
+_    #(\_ @<-)
+{    #({ @<-)
++    #(+ @<-)
+-    #(- @<-)
+$    #($ @<-)
+%    #(% @<-)
+@    #(@ @<-)
+#    #(# @<-)
+{{   #(\( @<-)
+}    #(} @<-)
+}}   #(\) @<-)
+~    #(~ @<-)
+!    #(! @<-)
+:    #(: @<-)
+&    #(& @<-)
+[    #([ @<-)
+]    #(] @<-)
+|    #(| @<-)
+\    #(\ @<-)
+;    #(; @<-)
+,    #(, @<-)
+.    #(. @<-)
+/    #(/ @<-)
+'    #(' @<-)
+<    #(< @<-)
+>    #(> @<-)
+
+M-q  #(M-q @<-)
+M-w  #(M-w @<-)
+M-e  #(M-e @<-)
+M-r  #(M-r @<-)
+M-t  #(M-t @<-)
+M-y  #(M-y @<-)
+M-u  #(M-u @<-)
+M-i  #(M-i @<-)
+M-o  #(M-o @<-) 
+M-p  #(M-p @<-) 
+M-s  #(M-s @<-) 
+M-d  #(M-d @<-)
+M-f  #(M-f @<-) 
+M-g  #(M-g @<-) 
+M-h  #(M-h @<-)
+M-j  #(M-j @<-)
+M-k  #(M-k @<-)
+M-l  #(M-l @<-) 
+M-z  #(M-z @<-)
+M-x  #(M-x @<-)
+M-c  #(M-c @<-) 
+M-v  #(M-v @<-)
+M-b  #(M-b @<-) 
+M-n  #(M-n @<-) 
+M-m  #(M-m @<-)
+M-,  #(M-, @<-)
+M-.  #(M-. @<-)
+M-/  #(M-/ @<-)
+
+Q    #(Q @<-)
+W    #(W @<-) 
+E    #(E @<-)
+R    #(R @<-)
+T    #(T @<-)
+Y    #(Y @<-)
+U    #(U @<-)
+I    #(I @<-)
+O    #(O @<-)
+P    #(P @<-)
+A    #(A @<-)
+S    #(S @<-)
+D    #(D @<-)
+F    #(F @<-)
+G    #(G @<-)
+H    #(H @<-)
+J    #(J @<-)
+K    #(K @<-)
+L    #(L @<-)
+Z    #(Z @<-)
+X    #(X @<-)
+C    #(C @<-)
+V    #(V @<-)
+B    #(B @<-)
+N    #(N @<-)
+M    #(M @<-)
+
+RE1  #(del 1)
+RE2  #(del 2)
+RE3  #(del 3)
+RE4  #(del 4)
+RE5  #(del 5)
+RE6  #(del 6)
+RE7  #(del 7)
+RE8  #(del 8)
+RE9  #(del 9)
+RE0  #(del 0)
+REq  #(del q)
+REw  #(del w) 
+REe  #(del e)
+REr  #(del r)
+REt  #(del t)
+REy  #(del y)
+REu  #(del u)
+REi  #(del i)
+REo  #(del o)
+REp  #(del p)
+REa  #(del a)
+REs  #(del s)
+REd  #(del d)
+REf  #(del f)
+REg  #(del g)
+REh  #(del h)
+REj  #(del j)
+REk  #(del k)
+REl  #(del l)
+REz  #(del z)
+REx  #(del x)
+REc  #(del c)
+REv  #(del v)
+REb  #(del b)
+REn  #(del n)
+REm  #(del m)
+RE,  #(del ,)
+RE.  #(del .)
+RE/  #(del /)
+RE'  #(del ')
+RE;  #(del ;)
+Rsp  #(del spc)
+RSq  #(del Q)
+RSw  #(del W) 
+RSe  #(del E)
+RSr  #(del R)
+RSt  #(del T)
+RSy  #(del Y)
+RSu  #(del U)
+RSi  #(del I)
+RSo  #(del O)
+RSp  #(del P)
+RSa  #(del A)
+RSs  #(del S)
+RSd  #(del D)
+RSf  #(del F)
+RSg  #(del G)
+RSh  #(del H)
+RSj  #(del J)
+RSk  #(del K)
+RSl  #(del L)
+RSz  #(del Z)
+RSx  #(del X)
+RSc  #(del C)
+RSv  #(del V)
+RSb  #(del B)
+RSn  #(del N)
+RSm  #(del M)
+RS,  #(del ,)
+RS.  #(del .)
+RS/  #(del /)
+RS'  #(del ')
+RPq  #(del ")
+RPw  #(del *) 
+RPe  #(del =)
+RPr  #(del ^)
+RPt  #(del `)
+RPy  #(del ?)
+RPu  #(del \_)
+RPi  #(del {)
+RPo  #(bspc @RB)
+RPp  #(del |)
+RPa  #(del +)
+RPs  #(del -)
+RPd  #(del $)
+RPf  #(del %)
+RPg  #(del @)
+RPh  #(del #)
+RPj  #(del \()
+RPk  #(del })
+RPl  #(del \))
+RPz  #(del ~)
+RPx  #(del !)
+RPc  #(del :)
+RPv  #(del &)
+RPb  #(del [)
+RPn  #(del ])
+RPm  #(del -)
+RP,  #(del <)
+RP.  #(del >)
+RP/  #(del /)
+RP'  #(del ')
+
+RB1  #(del 1 @RE)
+RB2  #(del 2 @RE)
+RB3  #(del 3 @RE)
+RB4  #(del 4 @RE)
+RB5  #(del 5 @RE)
+RB6  #(del 6 @RE)
+RB7  #(del 7 @RE)
+RB8  #(del 8 @RE)
+RB9  #(del 9 @RE)
+RB0  #(del 0 @RE)   
+RBq  #(del q @RE)
+RBw  #(del w @RE) 
+RBe  #(del e @RE)
+RBr  #(del r @RE)
+RBt  #(del t @RE)
+RBy  #(del y @RE)
+RBu  #(del u @RE)
+RBi  #(del i @RE)
+RBo  #(bspc)
+RBp  #(del p @RE)
+RBa  #(del a @RE)
+RBs  #(del s @RE)
+RBd  #(del d @RE)
+RBf  #(del f @RE)
+RBg  #(del g @RE)
+RBh  #(del h @RE)
+RBj  #(del j @RE)
+RBk  #(del k @RE)
+RBl  #(del l @RE)
+RBz  #(del z @RE)
+RBx  #(del x @RE)
+RBc  #(del c @RE)
+RBv  #(del v @RE)
+RBb  #(del b @RE)
+RBn  #(del n @RE)
+RBm  #(del m @RE)
+RB,  #(del , @RE)
+RB.  #(del . @RE)
+RB/  #(del / @RE)
+RB'  #(del ' @RE)
+
+Isp  #(del spc @NO)
+IN1  #(del 1 @NO)
+IN2  #(del 2 @NO)
+IN3  #(del 3 @NO)
+IN4  #(del 4 @NO)
+IN5  #(del 5 @NO)
+IN6  #(del 6 @NO)
+IN7  #(del 7 @NO)
+IN8  #(del 8 @NO)
+IN9  #(del 9 @NO)
+IN0  #(del 0 @NO)
+INq  #(del q @NO)
+INw  #(del w @NO) 
+INe  #(del e @NO)
+INr  #(del r @NO)
+INt  #(del t @NO)
+INy  #(del y @NO)
+INu  #(del u @NO)
+INi  #(del i @NO)
+INo  #(del o @NO)
+INp  #(del p @NO)
+INa  #(del a @NO)
+INs  #(del s @NO)
+INd  #(del d @NO)
+INf  #(del f @NO)
+INg  #(del g @NO)
+INh  #(del h @NO)
+INj  #(del j @NO)
+INk  #(del k @NO)
+INl  #(del l @NO)
+INz  #(del z @NO)
+INx  #(del x @NO)
+INc  #(del c @NO)
+INv  #(del v @NO)
+INb  #(del b @NO)
+INn  #(del n @NO)
+INm  #(del m @NO)
+IN,  #(del , @NO)
+IN.  #(del . @NO)
+IN/  #(del / @NO)
+IN'  #(del ' @NO)
+IN;  #(del ; @NO)
+ISq  #(del Q @NO) 
+ISw  #(del W @NO) 
+ISe  #(del E @NO)
+ISr  #(del R @NO)
+ISt  #(del T @NO)
+ISy  #(del Y @NO)
+ISu  #(del U @NO)
+ISi  #(del I @NO)
+ISo  #(del O @NO)
+ISp  #(del P @NO)
+ISa  #(del A @NO)
+ISs  #(del S @NO)
+ISd  #(del D @NO)
+ISf  #(del F @NO)
+ISg  #(del G @NO)
+ISh  #(del H @NO)
+ISj  #(del J @NO)
+ISk  #(del K @NO)
+ISl  #(del L @NO)
+ISz  #(del Z @NO)
+ISx  #(del X @NO)
+ISc  #(del C @NO)
+ISv  #(del V @NO)
+ISb  #(del B @NO)
+ISn  #(del N @NO)
+ISm  #(del M @NO)
+IS,  #(del , @NO)
+IS.  #(del . @NO)
+IS/  #(del / @NO)
+IS'  #(del ' @NO)
+IPq  #(del " @NO)
+IPw  #(del * @NO) 
+IPe  #(del = @NO)
+IPr  #(del ^ @NO)
+IPt  #(del ` @NO)
+IPy  #(del ? @NO)
+IPu  #(del \_ @NO)
+IPi  #(del { @NO)
+IPo  #(bspc @NO)
+IPp  #(del | @NO)
+IPa  #(del + @NO)
+IPs  #(del - @NO)
+IPd  #(del $ @NO)
+IPf  #(del % @NO)
+IPg  #(del @ @NO)
+IPh  #(del # @NO)
+IPj  #(del \( @NO)
+IPk  #(del } @NO)
+IPl  #(del \) @NO)
+IPz  #(del ~ @NO)
+IPx  #(del ! @NO)
+IPc  #(del : @NO)
+IPv  #(del & @NO)
+IPb  #(del [ @NO)
+IPn  #(del ] @NO)
+IPm  #(del - @NO)
+IP,  #(del < @NO)
+IP.  #(del > @NO)
+IP/  #(del / @NO)
+IP'  #(del ' @NO)
+
+)
+
+(deflayer default
+  esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  home end  ins  del
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    @PU  ]    ret
+  @MD  a    s    d    f    g    h    j    k    l    @QS  '
+  @MK  @ctl z    x    c    v    b    n    m    ,    .    /         rsft
+       lctl lmet lalt           @SP            ralt prnt rctl pgup up   pgdn
+                                                              left down rght
+)
+
+(deflayer punctuation
+  @esc @f1  @f2  @f3  @f4  @f5  @f6  @f7  @f8  @f9  @f10 @f11 @f12 @hom @end @ins @del
+  @grv @1   @2   @3   @4   @5   @6   @7   @8   @9   @0   @-   @=   @bsp
+  @tab @''  @*   @=   @^   @`   @?   @_   @{   @BS  @|   @PU  XX   @ret
+  _    @+   @-   @$   @%   @@   @#   @{{  @}   @}}  _    @' 
+  _    @\   @~   @!   @:   @&   @[   @]   @-   @<   @>   @/        _
+       _    _    _              @ret           _    _    _    _    _    _
+                                                              _    _    _
+)
+
+(deflayer mod
+  @esc @f1  @f2  @f3  @f4  @f5  @f6  @f7  @f8  @f9  @f10 @f11 @f12 @hom @end @ins @del
+  @grv @1   @2   @3   @4   @5   @6   @7   @8   @9   @0   @-   @=   @bsp
+  @tab @NO  @M-w @M-e @M-r @M-t @M-y @M-u @MEu @M-o @M-p @PU  XX   @ret
+  _    @esc @M-s @M-d @M-f @M-g @M-h @M-j @MEd @M-l @TR  @'
+  _    @;   @M-z @M-x @M-c @M-v @M-b @M-n @M-m @M-, @M-. @/        _
+       _    _    _              @ret           _    _    _    _    _    _
+                                                              _    _    _
+)
+
+(deflayer quickshift
+  @esc @f1  @f2  @f3  @f4  @f5  @f6  @f7  @f8  @f9  @f10 @f11 @f12 @hom @end @ins @del
+  @grv @1   @2   @3   @4   @5   @6   @7   @8   @9   @0   @-   @=   @bsp
+  @tab @Q   @W   @E   @R   @T   @Y   @U   @I   @O   @P   @PU  XX   @ret
+  @TL  @A   @S   @D   @F   @G   @H   @J   @K   @L   @<- @'
+  _    @;   @Z   @X   @C   @V   @B   @N   @M   @<   @>   _         _
+       _    _    _              @ret           _    _    _    _    _    _
+                                                              _    _    _
+)
+
+(deflayer spacehold
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    "    *    =    ^    `    ?    \_   {    bspc |    _    _    _
+  _    +    -    $    %    @    #    \(   }    \)   _    '
+  _    \    ~    !    :    &    [    ]    -    ,    .    /         _
+       _    _    _              spc            _    _    _    _    _    _
+                                                              _    _    _
+)
+
+(deflayer backspace
+  @esc @f1  @f2  @f3  @f4  @f5  @f6  @f7  @f8  @f9  @f10 @f11 @f12 @hom @end @ins @del
+  @grv @1   @2   @3   @4   @5   @6   @7   @8   @9   @0   @-   @=   @bsp
+  @tab @q   @w   @e   @r   @t   @y   @u   @i   bspc @p   @RO  XX   @ret
+  _    @a   @s   @d   @f   @g   @h   @j   @k   @l   _    @'  
+  @MK  @;   @z   @x   @c   @v   @b   @n   @m   @,   @.   @/        _
+       _    _    _              @SP            _    _    _    _    _    _
+                                                              _    _    _
+)
+
+(deflayer tab
+  @esc @f1  @f2  @f3  @f4  @f5  @f6  @f7  @f8  @f9  @f10 @f11 @f12 @hom @end @ins @del
+  @grv @1   @2   @3   @4   @5   @6   @7   @8   @9   @0   @-   @=   @bsp
+  @tab @q   @w   @e   @r   @t   @y   @u   @i   @o   @p   @PU  XX   @ret
+  f5   @a   @s   @d   @f   @g   @h   @j   @k   @l   f6   @'
+  _    @;   @z   @x   @c   @v   @b   @n   @m   @,   @.   _         _
+       _    _    _              @<-            _    _    _    _    _    _
+                                                              _    _    _
+)
+
+(deflayer restoreo
+  @esc @f1  @f2  @f3  @f4  @f5  @f6  @f7  @f8  @f9  @f10 @f11 @f12 @hom @end @ins @del
+  @grv @1   @2   @3   @4   @5   @6   @7   @8   @9   @0   @-   @=   @bsp
+  @tab @''  @*   @=   @^   @`   @?   @_   @{   @o   @|   @PU  XX   @ret
+  _    @+   @-   @$   @%   @@   @#   @{{  @}   @}}  _    @'
+  _    @;   @~   @!   @:   @&   @[   @]   @-   @<   @>   @/        _
+       _    _    _              @ret           _    _    _    _    _    _
+                                                              _    _    _
+)
+
+(deflayer menu
+  @esc @f1  @f2  @f3  @f4  @f5  @f6  @f7  @f8  @f9  @f10 @f11 @f12 @hom @end @ins @del
+  @grv @1   @2   @3   @4   @5   @6   @7   @8   @9   @0   @-   @=   @bsp
+  @tab @<-  @w   @e   @r   @t   @y   @u   up   @o   @p   _    XX   @ret
+  _    @a   @s   @d   @f   @g   @h   left down rght _    @'
+  _    @;   @z   @x   @c   @v   @b   @n   @m   @,   @.   @/        _
+       _    _    _              @ret           _    _    _    _    _    _
+                                                              _    _    _
+)
+
+(deflayer hold
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    end  _    _    _    pgup up   bspc _    _    _    _
+  _    _    _    pgdn _    _    home left down rght rsft _ 
+  _    lctl _    _    _    _    _    _    _    _    _    _         _
+       _    _    _              spc            _    _    _    _    _    _
+                                                              _    _    _
+)
+
+(deflayer normal
+  @esc @f1  @f2  @f3  @f4  @f5  @f6  @f7  @f8  @f9  @f10 @f11 @f12 @hom @end @ins @del
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   @bsp
+  XX   @NOq @NOw @NOe @IN  XX   @NS  @NOu @NOi @<-  @NOp @NP  XX   @ret
+  @MD  @NOa @NOs @DE  XX   @NOg XX   @NOj @NOk @NOl @NS  XX
+  _    XX   XX   @NOx @CH  @VI  XX   XX   @NOm XX   XX   XX        _
+       _    _    _              @SP            _    _    _    _    _    _
+                                                              _    _    _
+)
+
+(deflayer normalshifted
+  @esc @f1  @f2  @f3  @f4  @f5  @f6  @f7  @f8  @f9  @f10 @f11 @f12 @hom @end @ins @del
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   @bsp
+  XX   @NSq @NOw @NOe @RE  XX   @NSy @NSu @NOi @<-  @NSp _    XX   @ret
+  _    @NSa @NSs XX   XX   @NSg XX   @NOj @NOk @NOl @NO  XX
+  _    XX   XX   @NSx @NSc @NSv XX   XX   @NOm XX   XX   XX        _
+       _    _    _              @SP            _    _    _    _    _    _
+                                                              _    _    _
+)
+
+(deflayer normalpunctuation
+  @esc @f1  @f2  @f3  @f4  @f5  @f6  @f7  @f8  @f9  @f10 @f11 @f12 @hom @end @ins @del
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   @bsp
+  XX   @q   XX   XX   @NPr XX   XX   XX   XX   @<-  XX   @NO  XX   @ret
+  _    @NOa XX   @NPd XX   XX   XX   XX   XX   XX   _    XX
+  _    XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   _         _
+       _    _    _              @SP            _    _    _    _    _    _
+                                                              _    _    _
+)
+
+(deflayer change
+  @esc @f1  @f2  @f3  @f4  @f5  @f6  @f7  @f8  @f9  @f10 @f11 @f12 @hom @end @ins @del
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   @bsp
+  XX   XX   @CHw @CHe XX   XX   XX   XX   @CHi @<-  XX   _    XX   @ret
+  _    @NOa XX   XX   XX   XX   XX   @CHj @CHk @CHl _    XX
+  _    XX   XX   XX   @CHc XX   XX   XX   @CHm XX   XX   XX        _
+       _    _    _              @SP            _    _    _    _    _    _
+                                                              _    _    _
+)
+
+(deflayer delete
+  @esc @f1  @f2  @f3  @f4  @f5  @f6  @f7  @f8  @f9  @f10 @f11 @f12 @hom @end @ins @del
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   @bsp
+  XX   @DEq @DEw @DEe XX   XX   XX   XX   @DEi @<-  @p   _    XX   @ret
+  _    @NOa XX   XX   XX   XX   XX   @DEj @DEk @DEl _    XX
+  _    XX   XX   XX   XX   XX   XX   XX   @DEm XX   XX   XX        _
+       _    _    _              @SP            _    _    _    _    _    _
+                                                              _    _    _
+)
+
+(deflayer replace
+  @esc @f1  @f2  @f3  @f4  @f5  @f6  @f7  @f8  @f9  @f10 @f11 @f12 @hom @end @ins @del
+  @grv @RE1 @RE2 @RE3 @RE4 @RE5 @RE6 @RE7 @RE8 @RE9 @RE0 @-   @=   @bsp
+  @tab @REq @REw @REe @REr @REt @REy @REu @REi @REo @REp @RP  XX   @ret
+  @EI  @REa @REs @REd @REf @REg @REh @REj @REk @REl @RS  @RE'
+  _    @RE; @REz @REx @REc @REv @REb @REn @REm @RE, @RE. @RE/      _
+       _    _    _              @Rsp           _    _    _    _    _    _
+                                                              _    _    _
+)
+
+(deflayer replaceshifted
+  @esc @f1  @f2  @f3  @f4  @f5  @f6  @f7  @f8  @f9  @f10 @f11 @f12 @hom @end @ins @del
+  @grv @RE1 @RE2 @RE3 @RE4 @RE5 @RE6 @RE7 @RE8 @RE9 @RE0 @-   @=   @bsp
+  @tab @RSq @RSw @RSe @RSr @RSt @RSy @RSu @RSi @RSo @RSp @RP  XX   @ret
+  @EI  @RSa @RSs @RSd @RSf @RSg @RSh @RSj @RSk @RSl _    @RS'
+  _    @RE; @RSz @RSx @RSc @RSv @RSb @RSn @RSm @RS, @RS. @RS/      _
+       _    _    _              @Rsp           _    _    _    _    _    _
+                                                              _    _    _
+)
+
+(deflayer replacepunctuation
+  @esc @f1  @f2  @f3  @f4  @f5  @f6  @f7  @f8  @f9  @f10 @f11 @f12 @hom @end @ins @del
+  @grv @RE1 @RE2 @RE3 @RE4 @RE5 @RE6 @RE7 @RE8 @RE9 @RE0 @-   @=   @bsp
+  @tab @RPq @RPw @RPe @RPr @RPt @RPy @RPu @RPi @RPo @RPp _    XX   @ret
+  @EI  @RPa @RPs @RPd @RPf @RPg @RPh @RPj @RPk @RPl @RS  @RP'
+  _    @RE; @RPz @RPx @RPc @RPv @RPb @RPn @RPm @RP, @RP. @RP/      _
+       _    _    _              @Rsp           _    _    _    _    _    _
+                                                              _    _    _
+)
+
+(deflayer replacebackspace
+  @esc @f1  @f2  @f3  @f4  @f5  @f6  @f7  @f8  @f9  @f10 @f11 @f12 @hom @end @ins @del
+  @grv @RB1 @RB2 @RB3 @RB4 @RB5 @RB6 @RB7 @RB8 @RB9 @RB0 @-   @=   @bsp
+  @tab @RBq @RBw @RBe @RBr @RBt @RBy @RBu @RBi @RBo @RBp @RP  XX   @ret
+  @EI  @RBa @RBs @RBd @RBf @RBg @RBh @RBj @RBk @RBl @RS  @RB'
+  _    @RE; @RBz @RBx @RBc @RBv @RBb @RBn @RBm @RB, @RB. @RB/      _   
+       _    _    _              @Rsp           _    _    _    _    _    _
+                                                              _    _    _
+)
+
+(deflayer insert
+  @esc @f1  @f2  @f3  @f4  @f5  @f6  @f7  @f8  @f9  @f10 @f11 @f12 @hom @end @ins @del
+  @grv @IN1 @IN2 @IN3 @IN4 @IN5 @IN6 @IN7 @IN8 @IN9 @IN0 @-   @=   @bsp
+  @tab @INq @INw @INe @INr @INt @INy @INu @INi @INo @INp @IP  XX   @ret
+  @MD  @INa @INs @INd @INf @INg @INh @INj @INk @INl @IS  @IN'
+  _    @IN; @INz @INx @INc @INv @INb @INn @INm @IN, @IN. @IN/      _   
+       _    _    _              @Isp           _    _    _    _    _    _
+                                                              _    _    _
+)
+
+(deflayer insertshifted
+  @esc @f1  @f2  @f3  @f4  @f5  @f6  @f7  @f8  @f9  @f10 @f11 @f12 @hom @end @ins @del
+  @grv @IN1 @IN2 @IN3 @IN4 @IN5 @IN6 @IN7 @IN8 @IN9 @IN0 @-   @=   @bsp
+  @tab @ISq @ISw @ISe @ISr @ISt @ISy @ISu @ISi @ISo @ISp @IP  XX   @ret
+  @MD  @ISa @ISs @ISd @ISf @ISg @ISh @ISj @ISk @ISl _    @IS'
+  _    @IN; @ISz @ISx @ISc @ISv @ISb @ISn @ISm @IS, @IS. @IS/      _   
+       _    _    _              @Isp           _    _    _    _    _    _
+                                                              _    _    _
+)
+
+(deflayer insertpunctuation
+  @esc @f1  @f2  @f3  @f4  @f5  @f6  @f7  @f8  @f9  @f10 @f11 @f12 @hom @end @ins @del
+  @grv @IN1 @IN2 @IN3 @IN4 @IN5 @IN6 @IN7 @IN8 @IN9 @IN0 @-   @=   @bsp
+  @tab @IPq @IPw @IPe @IPr @IPt @IPy @IPu @IPi @IPo @IPp _    XX   @ret
+  @MD  @IPa @IPs @IPd @IPf @IPg @IPh @IPj @IPk @IPl @IS  @IP'
+  _    @IN; @IPz @IPx @IPc @IPv @IPb @IPn @IPm @IP, @IP. @IP/      _   
+       _    _    _              @Isp           _    _    _    _    _    _
+                                                              _    _    _
+)
+
+(deflayer visual
+  @esc @f1  @f2  @f3  @f4  @f5  @f6  @f7  @f8  @f9  @f10 @f11 @f12 @hom @end @ins @del
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   @bsp
+  XX   XX   @VIw @VIe XX   XX   @VIy XX   @VIi @VIo @VIp @VP  XX   @ret
+  @ES  @VIa @VIs @d   XX   XX   XX   @VIj @VIk @VIl @VS  XX
+  _    XX   XX   @VIx XX   @VIv XX   XX   @VIm XX   XX   _         _   
+       _    _    _              @SP            _    _    _    _    _    _
+                                                              _    _    _
+)
+
+(deflayer visualshifted
+  @esc @f1  @f2  @f3  @f4  @f5  @f6  @f7  @f8  @f9  @f10 @f11 @f12 @hom @end @ins @del
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   @bsp
+  XX   XX   @VIw @VIe XX   XX   XX   XX   @VIi @VIo XX   @VP  XX   @ret
+  _    @VIa @VIs XX   XX   XX   XX   @VIj @VIk @VIl @VI  XX
+  _    XX   XX   @VIx XX   @VIv XX   XX   @VIm XX   XX   XX        _   
+       _    _    _              @SP            _    _    _    _    _    _
+                                                              _    _    _
+)
+
+(deflayer visualpunctuation
+  @esc @f1  @f2  @f3  @f4  @f5  @f6  @f7  @f8  @f9  @f10 @f11 @f12 @hom @end @ins @del
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   @bsp
+  XX   XX   XX   XX   @VPr XX   XX   XX   @VIi @<-  XX   @VI  XX   @ret
+  _    @NOa XX   @VPd XX   XX   XX   @VIj @VIk @VIl _    XX
+  _    XX   XX   XX   XX   @VIv XX   XX   XX   XX   XX   XX        _   
+       _    _    _              @SP            _    _    _    _    _    _
+                                                              _    _    _
+)
+
+(deflayer escape
+  @esc @f1  @f2  @f3  @f4  @f5  @f6  @f7  @f8  @f9  @f10 @f11 @f12 @hom @end @ins @del
+  @grv @1   @2   @3   @4   @5   @6   @7   @8   @9   @0   @-   @=   @bsp
+  @tab @VIv @M-w @M-e @M-r @M-t @M-y @M-u @MEu @M-o @M-p @PU  XX   @ret
+  _    @VIv @M-s @M-d @M-f @M-g @M-h @M-j @MEd @M-l @TR  @'  
+  _    @;   @M-z @M-x @M-c @M-v @M-b @M-n @M-m @M-, @M-. _         _
+       _    _    _              @ret           _    _    _    _    _    _
+                                                              _    _    _
+)
+
+(deflayer escapeinsert
+  @esc @f1  @f2  @f3  @f4  @f5  @f6  @f7  @f8  @f9  @f10 @f11 @f12 @hom @end @ins @del
+  @grv @1   @2   @3   @4   @5   @6   @7   @8   @9   @0   @-   @=   @bsp
+  @tab @NO  @M-w @M-e @M-r @M-t @M-y @M-u @MEu @M-o @M-p @PU  XX   @ret
+  _    @NO  @M-s @M-d @M-f @M-g @M-h @M-j @MEd @M-l @TR  @'  
+  _    @;   @M-z @M-x @M-c @M-v @M-b @M-n @M-m @M-, @M-. _         _
+       _    _    _              @ret           _    _    _    _    _    _
+                                                              _    _    _
+)
